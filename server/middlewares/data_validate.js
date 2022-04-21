@@ -4,12 +4,12 @@ const ExpressError = require('../utils/ExpressError')
 
 exports.registerValidate = (req,res,next)=>{
     const validateMessage = registerValidation(req.body)
-    if(validateMessage) next(new ExpressError(validateMessage , 401))
+    if(validateMessage)  res.json({err : validateMessage})
     else next()
 }
 
 exports.loginValidate = (req,res,next)=>{
     const validateMessage = loginValidation(req.body)
-    if(validateMessage) next(new ExpressError(validateMessage , 401))
+    if(validateMessage) res.json({err : validateMessage})
     else next()
 }

@@ -37,9 +37,8 @@ app.all('*',(req,res,next)=>{
 
 //handling error
 app.use((err,req,res,next)=>{
-    // const {message , status} = err
-    // res.status(status).json({err : message})
-    res.send(err)
+    const {message , status} = err
+    res.status(status).json({err : message})
 })
 
 app.listen(8000)

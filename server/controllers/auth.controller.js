@@ -10,35 +10,45 @@ exports.register = (req,res,next)=>{
     bcrypt.hash(password,10).then(async(hash)=>{
         const user = new User({...req.body , password : hash})
         await user.save()
-        res.json({message : 'ok'})
+        res.json({message : 'new account is created, please login'})
     }).catch(err=>{
         const mongoMsg = new MongoError(err).errorMsg
-        const errorObject = new ExpressError(mongoMsg,401)
-        next(errorObject)
+        res.json({err:mongoMsg})
     })
 }
 
-exports.login = async(req,res,next)=>{
-    try{
-        const {email , password} = req.body
-        const user = await User.findOne({email})
+exports.login = async(req,res)=>{
+    const {email , password} = req.body
+        let user = await User.findOne({email})
+        if(!user) res.json({err : 'user not exist'})
         bcrypt.compare(password,user.password).then(result=>{
-            if(!result) next(new ExpressError('password is not correct',404))
+            if(!result) res.json({err : 'password is not correct'})
             else{
-                const token = jwt.sign({id : user._id},process.env.JWT_SECRET)
-                const time = new Date() + 1000 * 60 * 60 * 24 * 2
-                const {email , role , name} = user
-                res.cookie('id',token,{expire :time})
-                res.json({email , role , name} )
+                user = user.toObject()
+                delete user.password
+                const token = jwt.sign(user,process.env.JWT_SECRET , {expiresIn : '1d'})
+                const data = {...user,token}
+                res.json({data})
             }
-        })
-    }
-    catch(err){
-        next(new ExpressError('not found',404))
-    }
+    })
 }
 
 exports.logout = (req,res)=>{
-    res.clearCookie('id')
     res.json({message : 'ok'})
+}
+
+exports.Home = (req,res)=>{
+    const token = req.headers.auth
+    if(!token) return res.json({isAuth : false})
+    try{
+        const verified = jwt.verify(token,process.env.JWT_SECRET)
+        return res.json({isAuth : true,data:verified})
+    }
+    catch(err){
+        return res.json({isAuth : false})
+    }
+}
+
+exports.getUserDashboard = (req,res)=>{
+    res.json({data : req.user})
 }
