@@ -1,31 +1,41 @@
 import { useState } from 'react'
 import {Route, Routes} from 'react-router-dom'
-import Home from './core/Home'
-import Navbar from './core/Navbar'
-import AdminRoute from './user/AdminRoute'
-import Dashboard from './user/Dashboard'
-import Login from './user/Login'
-import Signup from './user/Signup'
-import userContext from './user/UserContext'
+import UserContext from './util/UserContext'
+import Home from './pages/Home'
+import Navbar from './components/Navbar'
+import Dashboard from './pages/Dashboard'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+import Auth from './auth/Auth'
+import Admin from './auth/Admin'
+import User from './auth/User'
 
 function App() {
-    const [user , setUser] = useState([])
+    const [user , setUser] = useState({})
     return (
-        <userContext.Provider value={[user , setUser]}>
+        <UserContext.Provider value={[user , setUser]}>
             <Navbar />
             <Routes>
                 <Route path='/signup' element={<Signup />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/' element={<Home />} />
-                <Route path='user/dashboard' element={<Dashboard />} />
-                <Route path='admin/dashboard' element={
-                    <AdminRoute>
-                        <Dashboard />
-                    </AdminRoute>
+                <Route path='/user/dashboard' element={
+                    <Auth>
+                        <User>
+                            <Dashboard />
+                        </User>
+                    </Auth>
                 } />
-                <Route path='*' element={<Home />} />
+                <Route path='/admin/dashboard'>
+                    <Route path='' element={
+                    <Auth>
+                        <Admin>
+                            <Dashboard />
+                        </Admin>
+                    </Auth>} />
+                </Route>
             </Routes>
-        </userContext.Provider>
+        </UserContext.Provider>
     )
 }
 

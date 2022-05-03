@@ -33,9 +33,6 @@ exports.login = async(req,res)=>{
     })
 }
 
-exports.logout = (req,res)=>{
-    res.json({message : 'ok'})
-}
 
 exports.Home = (req,res)=>{
     const token = req.headers.auth

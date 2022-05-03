@@ -2,6 +2,16 @@ const Product = require('../models/product.model')
 const ExpressError = require('../utils/ExpressError')
 const fs = require('fs')
 
+exports.getAllProducts = async(req,res)=>{
+    try{
+        const products =  await Product.find()
+        res.json({data: products})
+    }
+    catch(err){
+        next(new ExpressError(err.message,500))
+    }
+}
+
 exports.createProduct = (req,res)=>{
     res.json({message : 'ok'})
 }

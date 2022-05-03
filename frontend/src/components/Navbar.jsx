@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import userContext from '../user/UserContext'
+import UserContext from '../util/UserContext'
 
 function Navbar() {
-    const [user, setUser] = useContext(userContext)
+    const [user , setUser] = useContext(UserContext)
     const handelLogout = ()=>{
         setUser({})
         localStorage.removeItem('token')
