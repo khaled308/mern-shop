@@ -7,8 +7,25 @@ export  const categoriesApi = ()=>{
     return axios.get(url + '/category')
 }
 
+export const createCategoryApi = (data)=>{
+    return axios.post(url + '/category/create', data,{
+        headers : {
+            auth
+        }
+    })
+}
+
 export const productsApi = (query = '')=>{
     return axios.get(url + '/product' + query)
+}
+
+export const createProductApi = (data)=>{
+    return axios.post(url + '/product/create', data,{
+        headers : {
+            auth,
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
 }
 
 export const isAuthApi = ()=>{
@@ -27,13 +44,7 @@ export const dashboardApi = ()=>{
     })
 }
 
-export const isAdmin = ()=>{
-    return axios.get(url + '/user/admin',{
-        headers : {
-            auth : localStorage.getItem('token')
-        }
-    })
-}
+
 
 export const loginApi = (data)=>{
     return axios.post(url + '/user/login', data)

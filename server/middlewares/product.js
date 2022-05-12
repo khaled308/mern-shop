@@ -5,21 +5,19 @@ const Product = require('../models/product.model')
 const ExpressError = require('../utils/ExpressError')
 
 exports.productValidate = async(req,res,next)=>{
-    if(!req.file) return next(new ExpressError('file should be image' , 406))
+    if(!req.file) return res.json({err : 'file should be image'})
     
     const validateMessage = productValidation(req.body)
     if(validateMessage){
-        next(new ExpressError(validateMessage , 401))
         fs.unlinkSync('uploads/' + req.file.filename)
+        return res.json({err : validateMessage})
     }
 
     else{
         try{
             const category = await Category.findOne({name : req.body.category})
             if(category){
-                const categoryId = category._id
-                const product = new Product({...req.body , category : categoryId , productImg : req.file.path})
-                await product.save()
+                req.category = category
                 next()
             }
             else{

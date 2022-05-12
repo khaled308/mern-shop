@@ -1,15 +1,10 @@
-import { useContext, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useContext} from "react"
+import { Navigate } from "react-router-dom"
 import UserContext from "../util/UserContext"
 
 function Admin({children}) {
     const user = useContext(UserContext)[0]
-    const navigate = useNavigate()
-
-    useEffect(()=>{
-        if(!user.role)navigate('/user/dashboard')
-    },[])
-
+    if(user.role === 0) return <Navigate to='/user/dashboard' />
     return children
 }
 

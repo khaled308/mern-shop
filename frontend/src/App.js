@@ -9,6 +9,9 @@ import Signup from './pages/Signup'
 import Auth from './auth/Auth'
 import Admin from './auth/Admin'
 import User from './auth/User'
+import CreateCategory from './admin/CreateCategory'
+import CreateProduct from './admin/CreateProduct'
+import Shop from './pages/Shop'
 
 function App() {
     const [user , setUser] = useState({})
@@ -19,6 +22,7 @@ function App() {
                 <Route path='/signup' element={<Signup />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/' element={<Home />} />
+                <Route path='/shop' element={<Shop />} />
                 <Route path='/user/dashboard' element={
                     <Auth>
                         <User>
@@ -33,6 +37,8 @@ function App() {
                             <Dashboard />
                         </Admin>
                     </Auth>} />
+                    <Route path='category/create' element={<CreateCategory />} />
+                    <Route path='product/create' element={<CreateProduct />} />
                 </Route>
             </Routes>
         </UserContext.Provider>

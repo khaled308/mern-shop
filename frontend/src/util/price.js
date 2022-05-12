@@ -22,6 +22,6 @@ export const priceRange = [
     {
         id : 4,
         name : 'More than $40',
-        range : [40,100]
+        range : [40,10000]
     },
 ]

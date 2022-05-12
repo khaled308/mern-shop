@@ -7,10 +7,10 @@ function AdminLink() {
             <h5 className="card-header">Admin Links</h5>
             <ul className="list-group list-group-flush">
                 <li className="list-group-item">
-                    <Link to='#'>Create Category</Link>
+                    <Link to='category/create'>Create Category</Link>
                 </li>
                 <li className="list-group-item">
-                    <Link to='#'>Update Category</Link>
+                    <Link to='product/create'>Create Product</Link>
                 </li>
             </ul>
             </div>

@@ -32,6 +32,9 @@ function Navbar() {
                             </> : 
                             <>
                                 <li className="nav-item">
+                                    <NavLink className={`nav-link ${(item)=>item.isActive ? 'active' : ''}`} to="/shop">Shop</NavLink>
+                                </li>
+                                <li className="nav-item">
                                     <NavLink className={`nav-link ${(item)=>item.isActive ? 'active' : ''}`} to="/login" onClick={handelLogout}>Logout</NavLink>
                                 </li>
                             </>

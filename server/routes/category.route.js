@@ -1,8 +1,8 @@
 const router = require('express').Router()
-const {createCategory , getProduct , getProducts} = require('../controllers/category.controller')
-const { isAdmin } = require('../middlewares/auth')
-const { verifyToken } = require('../middlewares/verify_token')
+const {createCategory, getAllCategories} = require('../controllers/category.controller')
+const { isAuthAndAdmin } = require('../middlewares/auth')
 
-router.post('/create',verifyToken,isAdmin,createCategory)
+router.post('/create',isAuthAndAdmin,createCategory)
+router.get('/',getAllCategories)
 
 module.exports = router
